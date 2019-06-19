@@ -10,7 +10,7 @@ namespace Online_reservation_hotel.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("index","reservation");
         }
 
         public ActionResult About()
