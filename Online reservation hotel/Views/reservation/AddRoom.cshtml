@@ -1,0 +1,173 @@
+﻿@model Online_reservation_hotel.Models.RoomTransaction
+
+@{
+    ViewBag.Title = "Room reservations";
+    var Rooms = (List<Online_reservation_hotel.Models.RoomTransaction>)ViewBag.Rooms;
+}
+
+<h2>Room reservations</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Room reservations</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.roomTypeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.roomTypeName,
+    (IEnumerable<SelectListItem>)ViewBag.RoomTypes, "--select room type--", new { @class = "form-control" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.roomName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.roomName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.roomName, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.roomName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.roomName,
+    new SelectList(""), "--select room---", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.from, htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.from, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.from, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.to, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.to, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.to, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Reserve" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+                <p class="text-danger">@ViewBag.ErrorMessageForReservedDate</p>
+            </div>
+        </div>
+            </div>
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(dummy => Rooms[0].roomName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(dummy => Rooms[0].roomTypeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(dummy => Rooms[0].from)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(dummy => Rooms[0].to)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(dummy => Rooms[0].numberOfDays)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(dummy => Rooms[0].price)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Rooms)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(dummyItem => item.roomName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(dummyItem => item.roomTypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(dummyItem => item.from)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(dummytem => item.to)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(dummyItem => item.numberOfDays)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(dummyItem => item.price)
+                        </td>
+                        <td>
+
+                            @Html.ActionLink("Cancel", "Cancel", "reservation", new { id = item.roomTransId }, new { @class = "cancel" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+            @section scripts{
+
+                <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+                <script src="~/Scripts/jquery-1.10.2.js"></script>
+                <script>
+                    $(function () {
+                        $(".datepicker").datepicker({
+                            dateFormat: 'd M, y'
+
+                        });
+                    });
+                </script>
+                <script>
+
+                    $(document).ready(function () {
+                        $("#roomTypeName").change(function () {
+                            $.get("/reservation/getRoomList", { roomTypeName: $("#roomTypeName").val() }, function (data) {
+                                $("#roomName").empty();
+                                $.each(data, function (index, row) {
+                                    $("#roomName").append("<option value = '" + row.roomName + "'>" + row.roomName + "</option>")
+                                })
+
+                            })
+                        });
+
+                    });
+
+
+                </script>
+                <script>
+                    $('.cancel').click(function () {
+                        var confirmation = confirm("Are you sure You want to cancel?");
+                        if (confirmation == false) {
+                            event.preventDefault();
+                        }
+
+                    });
+                </script>
+            }
+
+

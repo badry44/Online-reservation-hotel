@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Online_reservation_hotel.Models.RoomType>
+
+@{
+    ViewBag.Title = "Room types";
+}
+
+<h2>Show Room Types</h2>
+
+<p>
+    @Html.ActionLink("Create New room type", "CreateRoomType")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.roomTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.roomTypePrice)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.roomTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.roomTypePrice)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.roomTypeId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.roomTypeId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.roomTypeId })
+        </td>*@
+    </tr>
+}
+
+</table>
+    

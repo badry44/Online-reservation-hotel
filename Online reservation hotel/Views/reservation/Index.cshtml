@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Reservation Home page";
+}
+<h2>Resevation Home Page</h2>
+<div class="form-horizontal " >
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.ActionLink("Show room types", "index", "test", null, new { @class = "btn btn-success " })
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Add room type", "CreateRoomType", "test", null, new { @class = "btn btn-success " })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.ActionLink("Add room reservation ", "AddRoom", "reservation", null, new { @class = "btn btn-success " })
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Show rooms reservation ", "showRooms", "reservation", null, new { @class = "btn btn-success " })
+        </div>
+    </div>
+
+
+
+
+
+
